@@ -1,4 +1,4 @@
-# Notes App
+# ✏️ Simple notes app
 
 Bun + Fastify API with React UI and Postgres.
 
