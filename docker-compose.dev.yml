@@ -1,0 +1,29 @@
+services:
+  migrate:
+    build:
+      context: ./api
+      target: dev
+
+  api:
+    build:
+      context: ./api
+      target: dev
+    volumes:
+      - ./api:/app
+      - /app/node_modules
+    env_file: ./api/.env
+    environment:
+      DATABASE_URL: postgres://note:note@postgres:5432/notes
+
+  ui:
+    image: oven/bun:1-alpine
+    working_dir: /app
+    volumes:
+      - ./ui:/app
+      - /app/node_modules
+    ports:
+      - '5173:5173'
+    env_file: ./ui/.env
+    command: sh -c "bun install && bun run dev --host"
+    depends_on:
+      - api
